@@ -3,28 +3,31 @@
 
 import PackageDescription
 
+// swift-tools-version: 6.1
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
+import PackageDescription
+
 let package = Package(
-    name: "BiometridFaceLibrary",
+    name: "BiometridFaceLiveness",
     platforms: [
         .iOS(.v15)
     ],
     products: [
-        // This library now re-exports the FaceTecSDK symbols
         .library(
-            name: "BiometridFaceLibrary",
+            name: "BiometridFaceLiveness",
             targets: ["BiometridFaceLibraryTarget"]
         ),
     ],
     targets: [
-        // 1️⃣ Wrapper target that re-exports the binary SDK
+        // Wrapper target that re-exports the binary SDK
         .target(
             name: "BiometridFaceLibraryTarget",
-            dependencies: [
-                .target(name: "FaceTecSDK", condition: .when(platforms: [.iOS]))
-            ]
+            dependencies: ["FaceTecSDK"],
+            path: "Sources/BiometridFaceLibraryTarget"
         ),
 
-        // 2️⃣ Binary target
+        // Binary target
         .binaryTarget(
             name: "FaceTecSDK",
             url: "https://dl.cloudsmith.io/public/biometrid/mobile-test/raw/versions/1.0.0/FaceTecSDK.xcframework.zip",
